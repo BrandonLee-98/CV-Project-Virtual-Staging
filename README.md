@@ -2,8 +2,8 @@
 
 **Institution:** Houston City College  
 **Course:** AI and Robotics - Computer Vision Capstone  
-**Developer:** [Your Name]  
-**GPA:** 3.806  
+**Developer:** Brandon Matias
+
 
 ## Project Overview
 RE.Ai Solution is a high-fidelity virtual staging pipeline designed to transform vacant real estate photography into fully furnished, market-ready assets. Unlike standard generative tools, this system utilizes a **dual-pass Computer Vision architecture** to ensure architectural integrity and spatial realism.
