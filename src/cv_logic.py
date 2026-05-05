@@ -32,14 +32,14 @@ def prepare_image_for_staging(image_path: str | Path, max_dim: int = 1024) -> st
 
 def call_replicate_seedream(image_path: str, prompt: str, out_path: str) -> str:
     """Handles the SeeDream 4.5 API call with strict schema validation."""
-    # Strict API fix: 'size' must be exact uppercase "2K"
+    
+    # Schema Fix: 'image_input' must be an array; 'guidance_scale' is deprecated.
     output = replicate.run(
         "bytedance/seedream-4.5",
         input={
-            "image": open(image_path, "rb"),
+            "image_input": [open(image_path, "rb")],
             "prompt": prompt,
-            "size": "2K", 
-            "guidance_scale": 7.5
+            "size": "2K"
         }
     )
     
