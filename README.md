@@ -1,4 +1,4 @@
-# RE.Ai Solution: Intelligent Virtual Staging Pipeline
+# Intelligent Virtual Staging Pipeline
 
 **Institution:** Houston City College  
 **Course:** AI and Robotics - Computer Vision Capstone  
@@ -6,7 +6,7 @@
 
 
 ## Project Overview
-RE.Ai Solution is a high-fidelity virtual staging pipeline designed to transform vacant real estate photography into fully furnished, market-ready assets. Unlike standard generative tools, this system utilizes a **dual-pass Computer Vision architecture** to ensure architectural integrity and spatial realism.
+The CV Virtual Staging project is a high-fidelity virtual staging pipeline designed to transform vacant real estate photography into fully furnished, market-ready assets. Unlike standard generative tools, this system utilizes a **dual-pass Computer Vision architecture** to ensure architectural integrity and spatial realism.
 
 The pipeline integrates **YOLO-World** (Zero-Shot Object Detection) for environmental context and the **SeeDream 4.5** diffusion model for high-resolution 2K staging.
 
