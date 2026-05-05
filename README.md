@@ -1,60 +1,82 @@
-# ITAI-1378-Midterm_AIVirtualStaging
-### RE.AI Solution: AI-Powered Virtual Staging
-**Team Member:** Brandon Matias
+# RE.Ai Solution: Intelligent Virtual Staging Pipeline
 
-**Tier:** Tier 2 
+**Institution:** Houston City College  
+**Course:** AI and Robotics - Computer Vision Capstone  
+**Developer:** [Your Name]  
+**GPA:** 3.806  
 
-**Justification:** This project implements a custom computer vision pipeline using SeeDream 4.5 via API. It features advanced prompt engineering with over 30 style/room combinations and a custom-coded Structural Integrity Rule to prevent architectural hallucinations. It also includes a robust backend with PostgreSQL for job tracking and asynchronous webhook processing.
+## Project Overview
+RE.Ai Solution is a high-fidelity virtual staging pipeline designed to transform vacant real estate photography into fully furnished, market-ready assets. Unlike standard generative tools, this system utilizes a **dual-pass Computer Vision architecture** to ensure architectural integrity and spatial realism.
 
-## Problem Statement
-Empty or poorly furnished homes sell slower and for significantly less than staged properties, yet traditional physical staging costs between $2,000–$5,000+. Existing digital tools often "hallucinate" architectural changes, such as moving walls or windows, which can lead to legal and disclosure issues for real estate agents.
+The pipeline integrates **YOLO-World** (Zero-Shot Object Detection) for environmental context and the **SeeDream 4.5** diffusion model for high-resolution 2K staging.
 
-## Solution Overview
-RE.AI Solution is a web-based platform that instantly transforms empty room photos into realistically furnished, market-ready listings. By utilizing an additive staging pattern, the system ensures 100% architectural integrity—placing furniture and decor strictly on the existing floor plane without altering the home's original structure or lighting.
+---
 
-## Technical Approach
-**CV Technique:** Image-to-Image Generation / Inpainting.
+## Key Technical Features
 
-**Model:** Primary: SeeDream 4.5 (bytedance/seedream-4.5) Fallback: OpenAI gpt-image-1.
+### 1. Zero-Shot Architectural Anchor Detection
+Standard YOLO models often fail to recognize permanent fixtures in empty rooms. This project implements **YOLO-World** to detect custom vocabulary anchors:
+* **Fireplaces & Ceiling Fans:** Used as "architectural anchors" to correctly identify room types (e.g., Living Room vs. Bedroom) when furniture is absent.
+* **Window & Door Detection:** Identifies structural boundaries to prevent the generative model from obstructing natural light sources or entryways.
 
-**Framework:** Node.js/Express, Replicate API, and Replit Object Storage.
+### 2. Intelligent Room Mapping Logic
+The system features a custom heuristic engine that maps detected objects to staging prompts:
+* **Weighted Thresholding:** Structural anchors (fireplaces) are prioritised over temporary items to determine room identity.
+* **Fallback Logic:** Statistically defaults to "Bedroom" for empty rooms to align with standard residential listing ratios.
 
-**Why this approach:** SeeDream 4.5 provides superior structural consistency for architectural photography. The additive prompt engineering ensures that furniture placement is grounded and realistic without the need for manual 3D modeling.
+### 3. 2K High-Resolution Staging
+Utilizes the **SeeDream 4.5** API via Replicate to generate 2K resolution staged images. The system injects dynamic prompt constraints (Safety Heuristics) to maintain structural materials (walls, floors, windows) while adding realistic 3D furniture.
 
-## Dataset
-**Source:** Custom-curated prompts based on professional interior design styles (Modern, Contemporary, Rustic, Minimalist, Traditional).
+### 4. CV Verification Pass (The "Turing Test")
+A unique feature of this pipeline is the **Verification Pass**. After staging, the system runs a second round of YOLO detection on the AI-generated image. This empirically validates the realism of the staged furniture; if the CV model can recognize the "AI bed" with high confidence, the generation is deemed spatially and geometrically accurate.
 
-**Size:** 30+ unique room/style prompt combinations.
+---
 
-**Labels:** 6 indoor room types (Living, Bedroom, Kitchen, etc.) and specialized outdoor/garage logic.
+## Technical Stack
+* **Language:** Python 3.11+
+* **CV Model:** YOLO-World (via Ultralytics)
+* **Generative Engine:** SeeDream 4.5 (Replicate API)
+* **Fallback Engine:** OpenAI GPT-Image-1
+* **Image Processing:** PIL (Pillow) for normalization and multi-pass filtering.
+* **Hardware Management:** PyTorch (VRAM management/CUDA cache clearing for stability).
 
-## Success Metrics
-**Primary Metric:** Structural Accuracy — 0% alteration of walls, windows, and floors (verified via visual audit).
+---
 
-**Secondary Metrics:** Latency — Staged image delivery in under 15 seconds; User Approval Rate via the token system.
+## Setup & Installation
 
-## Week-by-Week Plan (Dec 2025 – Jan 2026)
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/](https://github.com/)[your-username]/re-ai-solution.git
+   cd re-ai-solution
 
-**Dec 3–5:** Foundation: Launched initial showcase, integrated image enhancement, and established pay-per-download security.
+## Setup & Installation
 
-**Jan 12:** Accuracy Sprint: Integrated ControlNet for 3D perspective and developed anti-hallucination prompt constraints.
+### Install dependencies:
 
-**Jan 19:** Ecosystem: Developed Agent Profile management and public portfolio pages.
+```bash
+pip install -r requirements.txt
+```
+---
+## Environment Variables
 
-**Jan 20:** Optimization: Migrated to SeeDream 4.5, implemented webhook-based pipelines, and finalized specialized garage/outdoor logic.
+Configure your `.env` file or Colab Secrets:
 
-**Week 15:** Final Presentation.
+* **REPLICATE_API_TOKEN**: Your Replicate API key.
+* **OPENAI_API_KEY**: Your OpenAI API key.
+* **USE_LIVE_API**: Set to `1` for production runs.
 
-## Resources Needed
-**Compute:** Replicate API for model inference; Replit for web hosting.
+---
 
-**Frameworks:** Hugging Face, Node.js/Express, and Neon/PostgreSQL.
+## Methodology & Results
 
-**Cost:** $5–$10 per 100 images (API usage).
+The development of **RE.Ai Solution** involved significant iteration on Prompt Engineering and Confidence Threshold Tuning.
 
-## Risks & Mitigation
-| Risk | Probability | Mitigation |
-| :--- | :--- | :--- |
-| **Model Downtime** | Medium | Automated fallback to OpenAI gpt-image-1 API |
-| **Floating Furniture** | Low | Refined structural integrity rules forcing floor-plane contact |
-| **Hallucination** | Low | Strict "Additive Only" prompt constraints to preserve original architecture |
+### Challenges Overcome:
+
+* **API Drift**: Updated the pipeline to handle schema changes in SeeDream 4.5 (migrating from `image_urls` to `image_input` arrays).
+* **Window Occlusion**: Solved using a "Safety Heuristic" that appends architectural protection rules to the end of prompts, leveraging model recency bias.
+* **Memory Optimization**: Implemented `torch.cuda.empty_cache()` to resolve Replicate "Director" errors during high-resolution processing.
+
+---
+
+*Developed as a final project for **Houston City College***.
