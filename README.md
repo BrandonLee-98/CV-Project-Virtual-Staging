@@ -45,10 +45,10 @@ A unique feature of this pipeline is the **Verification Pass**. After staging, t
 ## Setup & Installation
 
 1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/](https://github.com/)[your-username]/re-ai-solution.git
-   cd re-ai-solution
-
+```bash
+git clone [https://github.com/](https://github.com/)[your-username]/re-ai-solution.git
+cd re-ai-solution
+```
 ## Setup & Installation
 
 ### Install dependencies:
