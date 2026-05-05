@@ -3,8 +3,7 @@
 **Project:** Intelligent Virtual Staging Pipeline  
 **Course:** AI and Robotics Capstone  
 **Institution:** Houston City College  
-**Developer:** [Your Name]  
-**GPA:** 3.806
+**Developer:** Brandon Matias
 
 ## Overview
 This document tracks the iterative development of the RE.Ai Solution, detailing the collaboration between the developer and AI agents to solve complex computer vision, architectural decoupling, and generative AI hurdles.
