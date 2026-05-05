@@ -1,19 +1,20 @@
-# AI Model Execution & APIs
-replicate>=0.25.0
-openai>=1.12.0
+# RE.Ai Solution: Core Dependencies
+# Versioning pinned for stability in Houston City College Capstone environment
 
-# Backend Framework & Environment
-flask>=3.0.0
-python-dotenv>=1.0.1
-requests>=2.31.0
+# Computer Vision & Machine Learning
+ultralytics>=8.1.0  # Required for YOLO-World Zero-Shot detection
+torch>=2.0.0        # Backend for YOLO and VRAM management (cuda.empty_cache)
 
-# Database (PostgreSQL/Neon)
-psycopg2-binary>=2.9.9
-SQLAlchemy>=2.0.27
+# Generative AI APIs
+replicate>=0.25.0   # SeeDream 4.5 Integration
+openai>=1.30.0      # Fallback Staging Engine
 
-# Image Processing & Utilities
-Pillow>=10.2.0
-numpy>=1.26.4
+# Image Processing & Visualization
+Pillow>=10.0.0      # Image normalization and PIL-based preprocessing
+matplotlib>=3.7.0   # 3-Panel comparison plotting
+requests>=2.31.0    # API Handshake stability
 
-# Cloud Storage (Replit/GCS)
-google-cloud-storage>=2.14.0
+# Environment & Notebook Support
+python-dotenv>=1.0.0
+ipykernel>=6.27.0
+notebook>=7.0.0
