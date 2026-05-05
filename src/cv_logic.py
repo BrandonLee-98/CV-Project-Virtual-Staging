@@ -749,38 +749,38 @@ from ultralytics import YOLOWorld
 
 # --- New "Intelligent" Wrapper ---
 
+# --- Add this to the bottom of src/cv_logic.py ---
+from ultralytics import YOLOWorld
+
 def run_intelligent_staging(img_filename, style="modern"):
     """
-    Automated pipeline:
-    1. Detects room type using YOLO-World anchors.
-    2. Maps anchors (fireplaces, fans) to RoomType.
-    3. Calls stage_image with the correct parameters.
+    Orchestration Layer:
+    1. Detects architectural anchors using YOLO-World.
+    2. Maps anchors to RoomType (Living Room vs Bedroom).
+    3. Executes the generative staging pipeline.
     """
-    # 1. Initialize YOLO-World
+    # Initialize Zero-Shot Model
     model = YOLOWorld('yolov8s-world.pt') 
     model.set_classes(["window", "fireplace", "ceiling fan", "refrigerator"])
     
-    # 2. Perform Detection
+    # Pathing logic consistent with Colab environment
     img_path = f"/content/data/raw/{img_filename}"
-    results = model.predict(img_path, conf=0.10) # Using your 0.10 threshold for anchors
     
-    # 3. Intelligent Room Mapping Logic
+    # Anchor Detection (using the 0.10 threshold)
+    results = model.predict(img_path, conf=0.10, verbose=False)
     labels = [model.names[int(cls)] for cls in results[0].boxes.cls]
     
+    # Heuristic Mapping
     if "fireplace" in labels:
         room_type = "living_room"
     elif "refrigerator" in labels:
         room_type = "kitchen"
-    elif "ceiling fan" in labels:
-        room_type = "bedroom"
     else:
-        room_type = "bedroom" # Your default fallback
+        room_type = "bedroom" # Default fallback
         
-    print(f"🔍 CV Analysis: Detected {labels}. Categorized as: {room_type}")
+    print(f"🔍 Analysis: Detected {labels}. Using: {room_type}")
     
-    # 4. Call your existing stage_image function
-    # Note: stage_image returns (prepared, staged, prompt)
-    prepared_path, staged_path, _ = stage_image(img_path, room_type=room_type, style=style)
+    # Call the original staging engine
+    prepared, staged, _ = stage_image(img_path, room_type=room_type, style=style)
     
-    # Return the format the Master Block expects: (original, yolo_results, final_staged)
-    return img_path, results[0], staged_path
+    return img_path, results[0], staged
